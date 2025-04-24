@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Productivity Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <canvas id="productivityChart" width="400" height="200"></canvas>
+  <script>
+    fetch('http://localhost:5000/api/analytics')
+      .then(res => res.json())
+      .then(data => {
+        const labels = data.map(d => d._id);
+        const durations = data.map(d => d.totalTime);
+        new Chart(document.getElementById('productivityChart'), {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Time Spent (s)',
+              data: durations,
+              backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+          }
+        });
+      });
+  </script>
+</body>
+</html>
